@@ -2,20 +2,7 @@
 
 set -e
 
-while ! nc -z ${CMS_HOST} 80; do
-  echo "waiting for wordpress listening..."
-  sleep 0.25
-done
-echo "WordPress started"
-
-while ! nc -z ${MYSQL_HOST} 3306; do
-  echo "waiting for mysql listening..."
-  sleep 0.25
-done
-echo "MySQL started"
-
-# prepare and restore database
-/scripts/create.sh
+# prepare and restore wp files
 /scripts/restore.sh
 
 # make env accessible to cron

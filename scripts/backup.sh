@@ -5,35 +5,30 @@ pidof -o %PPID -x $0 >/dev/null && echo "ERROR: Script $0 already running" && ex
 
 set -e
 
-echo "Backing up database"
+echo "Backing up WP files"
 
 export AWS_ACCESS_KEY_ID=${BACKUP_KEY}
 export AWS_SECRET_ACCESS_KEY=${BACKUP_SECRET}
 
-mysqldump --user=${MYSQL_USER} \
-          --host=${MYSQL_HOST} \
-          --password=${MYSQL_PASSWORD} \
-          --default-character-set=utf8 \
-          --protocol=tcp \
-          --single-transaction \
-          --column-statistics=0 \
-          --no-tablespaces \
-          ${MYSQL_DATABASE} > db.dump
+#### TAR GZ ###
+# tODO $$$$ ###
+###############
+tar cvzf wpf.tgz /var/www/html
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${BACKUP_PATH}"
 aws_args="--endpoint-url https://s3.filebase.com"
 
-s3_uri="${s3_uri_base}/${MYSQL_DATABASE}_${timestamp}.dump"
+s3_uri="${s3_uri_base}/${CMS_DNS_A}_${timestamp}.tgz"
 
 if [ -n "$BACKUP_PASSPHRASE" ]; then
   echo "Encrypting backup..."
-  gpg --symmetric --batch --passphrase "${BACKUP_PASSPHRASE}" db.dump
-  rm db.dump
-  local_file="db.dump.gpg"
+  gpg --symmetric --batch --passphrase "${BACKUP_PASSPHRASE}" wpf.tgz
+  rm wpf.tgz
+  local_file="wpf.tgz.gpg"
   s3_uri="${s3_uri}.gpg"
 else
-  local_file="db.dump"
+  local_file="wpf.tgz"
   s3_uri="${s3_uri}"
 fi
 
@@ -44,7 +39,7 @@ rm "${local_file}"
 deleteAfter="${BACKUP_RETAIN:-"10 days"}"
 echo "Deleting backups older than ${deleteAfter}"
 
-aws ${aws_args} s3 ls "${s3_uri_base}/${MYSQL_DATABASE}" | while read -r line;  do
+aws ${aws_args} s3 ls "${s3_uri_base}/${CMS_DNS_A}" | while read -r line;  do
 createDate=`echo $line|awk {'print $1" "$2'}`
 createDate=`date -d"${createDate}" +%s`
 olderThan=`date -d"-${deleteAfter}" +%s`
