@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-/scripts/run.sh
+exec /scripts/run.sh
 
 set -Eeuo pipefail
 
