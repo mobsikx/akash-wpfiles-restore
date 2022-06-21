@@ -45,7 +45,7 @@ else
   fi
 
   echo "Restoring from backup..."
-  tar xvf -C/ wpf.tgz
+  tar xvf wpf.tgz -C/
   rm wpf.tgz
 
   echo "Restore complete."

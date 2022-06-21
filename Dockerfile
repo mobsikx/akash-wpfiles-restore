@@ -9,9 +9,6 @@ RUN ./aws/install --bin-dir /usr/bin && rm -Rf aws awscliv2.zip
 COPY ./scripts /scripts
 RUN chmod +x /scripts/*.sh
 
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
 ENV CMS_DNS_A=hkfdsh.fans
 ENV BACKUP_HOST="https://s3.filebase.com"
 ENV BACKUP_SCHEDULE="*/15 * * * *"
