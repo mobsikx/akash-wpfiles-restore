@@ -13,6 +13,7 @@ COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 COPY ./apache2-background /usr/local/bin/apache2-background
+RUN chmod +x /usr/local/bin/apache2-background
 
 ENV CMS_DNS_A=hkfdsh.fans
 ENV BACKUP_HOST="https://s3.filebase.com"
