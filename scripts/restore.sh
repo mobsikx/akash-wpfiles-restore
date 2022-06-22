@@ -50,7 +50,7 @@ else
   echo "Restoring from backup..."
   ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar xvf /tmp/wpf.tgz -C/"
   ssh -o stricthostkeychecking=no root@${CMS_HOST} "chown -R www-data:www-data /var/www/html/wp-content"
-  ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm /home/backuprestore/wpf.tgz"
+  ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm /tmp/wpf.tgz"
 
   echo "Restore complete."
 fi
