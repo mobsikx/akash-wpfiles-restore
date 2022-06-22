@@ -48,8 +48,8 @@ else
   sshpass -f /tmp/pass scp -o stricthostkeychecking=no wpf.tgz backuprestore@${CMS_HOST}:/home/backuprestore/wpf.tgz
 
   echo "Restoring from backup..."
-  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no "tar xvf /home/backuprestore/wpf.tgz -C/"
-  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no "rm /home/backuprestore/wpf.tgz"
+  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "tar xvf /home/backuprestore/wpf.tgz -C/"
+  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "rm /home/backuprestore/wpf.tgz"
 
   echo "Restore complete."
 fi
