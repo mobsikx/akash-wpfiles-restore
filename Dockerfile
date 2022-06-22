@@ -1,6 +1,6 @@
 FROM debian:testing-slim
 
-RUN apt-get update -qq && apt-get install -y tini curl netcat-traditional gpg zip cron sshpass
+RUN apt-get update -qq && apt-get install -y curl netcat-traditional gpg zip cron sshpass
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
@@ -19,5 +19,5 @@ ENV BACKUP_SCHEDULE="*/15 * * * *"
 ENV BACKUP_RETAIN="7 days"
 
 COPY ./crontab /crontab
-ENTRYPOINT ["/sbin/tini", "--"]
+# ENTRYPOINT ["/scripts/run.sh"]
 CMD ["/scripts/run.sh"]
