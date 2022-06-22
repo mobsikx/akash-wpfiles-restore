@@ -2,7 +2,7 @@
 
 set -e
 
-while ! nc -z ${CMS_HOST} 80; do
+while ! nc -z ${CMS_HOST} 22; do
   echo "waiting for wordpress listening..."
   sleep 0.25
 done
