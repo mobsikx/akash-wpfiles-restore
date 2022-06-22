@@ -1,6 +1,6 @@
 FROM debian:testing-slim
 
-RUN apt-get update -qq && apt-get install -y curl gpg zip cron sshpass
+RUN apt-get update -qq && apt-get install -y curl nc gpg zip cron sshpass
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
