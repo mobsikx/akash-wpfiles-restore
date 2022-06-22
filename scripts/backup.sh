@@ -10,10 +10,9 @@ echo "Backing up WP files"
 export AWS_ACCESS_KEY_ID=${BACKUP_KEY}
 export AWS_SECRET_ACCESS_KEY=${BACKUP_SECRET}
 
-sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "chmod -R 777 /var/www/html/wp-content"
-sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "tar cvzf /home/backuprestore/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions /var/www/html/wp-content"
-sshpass -f /tmp/pass scp -o stricthostkeychecking=no backuprestore@${CMS_HOST}:/home/backuprestore/wpf.tgz .
-sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "rm -f /home/backuprestore/wpf.tgz"
+ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions /var/www/html/wp-content"
+scp -o stricthostkeychecking=no root@${CMS_HOST}:/tmp/wpf.tgz .
+ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm -f /tmp/wpf.tgz"
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${BACKUP_PATH}"

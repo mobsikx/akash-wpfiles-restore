@@ -45,12 +45,12 @@ else
   fi
 
   echo "Copying backup file to the server ${CMS_HOST}..."
-  sshpass -f /tmp/pass scp -o stricthostkeychecking=no wpf.tgz backuprestore@${CMS_HOST}:/home/backuprestore/wpf.tgz
+  scp -o stricthostkeychecking=no wpf.tgz root@${CMS_HOST}:/tmp/wpf.tgz
 
   echo "Restoring from backup..."
-  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "sudo chmod -R 777 /var/www/html/wp-content"
-  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "sudo tar xvf /home/backuprestore/wpf.tgz -C/"
-  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no backuprestore@${CMS_HOST} "rm /home/backuprestore/wpf.tgz"
+  ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar xvf /tmp/wpf.tgz -C/"
+  ssh -o stricthostkeychecking=no root@${CMS_HOST} "chown -R www-data:www-data /var/www/html/wp-content"
+  ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm /home/backuprestore/wpf.tgz"
 
   echo "Restore complete."
 fi
