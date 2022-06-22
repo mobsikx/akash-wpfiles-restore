@@ -2,6 +2,12 @@
 
 set -e
 
+while ! nc -z ${CMS_HOST} 80; do
+  echo "waiting for wordpress listening..."
+  sleep 0.25
+done
+echo "WordPress started"
+
 # prepare and restore wp files
 /scripts/restore.sh
 

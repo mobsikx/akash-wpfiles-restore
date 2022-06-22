@@ -13,7 +13,7 @@ export AWS_SECRET_ACCESS_KEY=${BACKUP_SECRET}
 #### TAR GZ ###
 # tODO $$$$ ###
 ###############
-tar cvzf wpf.tgz /var/www/html/wp-admin /var/www/html/wp-content /var/www/html/wp-includes
+sshpass -f /tmp/pass ssh -o stricthostkeychecking=no "tar cvzf /home/backuprestore/wpf.tgz /var/www/html/wp-admin /var/www/html/wp-content /var/www/html/wp-includes"
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${BACKUP_PATH}"

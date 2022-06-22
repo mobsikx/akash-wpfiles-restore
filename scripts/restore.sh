@@ -44,9 +44,12 @@ else
     rm wpf.tgz.gpg
   fi
 
+  echo "Copying backup file to the server ${CMS_HOST}..."
+  sshpass -f /tmp/pass scp -o stricthostkeychecking=no wpf.tgz backuprestore@${CMS_HOST}:/home/backuprestore/wpf.tgz
+
   echo "Restoring from backup..."
-  tar xvf wpf.tgz -C/
-  rm wpf.tgz
+  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no "tar xvf /home/backuprestore/wpf.tgz -C/"
+  sshpass -f /tmp/pass ssh -o stricthostkeychecking=no "rm /home/backuprestore/wpf.tgz"
 
   echo "Restore complete."
 fi
