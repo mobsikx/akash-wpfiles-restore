@@ -25,7 +25,7 @@ if [ $# -eq 1 ]; then
 else
   echo "Finding latest backup..."
   key_suffix=$(
-    aws $aws_args s3 ls "${s3_uri_base}/${CMS_DNS_A}*" \
+    aws $aws_args s3 ls "${s3_uri_base}/${CMS_DNS_A}" \
       | sort \
       | tail -n 1 \
       | awk '{ print $4 }'
