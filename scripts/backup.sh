@@ -10,9 +10,13 @@ echo "Backing up WP files"
 export AWS_ACCESS_KEY_ID=${BACKUP_KEY}
 export AWS_SECRET_ACCESS_KEY=${BACKUP_SECRET}
 
-ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions /var/www/html/wp-content"
-scp -o stricthostkeychecking=no root@${CMS_HOST}:/tmp/wpf.tgz .
-ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm -f /tmp/wpf.tgz"
+mkdir -p /tmp/backup
+rsync -chavzP --stats root@${CMS_HOST}:/var/www/html/wp-content /tmp/backup
+cd /tmp/backup
+tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions --warning=no-file-changed ./wp-content
+#ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions /var/www/html/wp-content"
+#scp -o stricthostkeychecking=no root@${CMS_HOST}:/tmp/wpf.tgz .
+#ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm -f /tmp/wpf.tgz"
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${BACKUP_PATH}"

@@ -48,7 +48,7 @@ else
   scp -o stricthostkeychecking=no wpf.tgz root@${CMS_HOST}:/tmp/wpf.tgz
 
   echo "Restoring from backup..."
-  ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar xvf /tmp/wpf.tgz -C/"
+  ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar xvf /tmp/wpf.tgz -C/var/www/html/"
   ssh -o stricthostkeychecking=no root@${CMS_HOST} "chown -R www-data:www-data /var/www/html/wp-content"
   ssh -o stricthostkeychecking=no root@${CMS_HOST} "rm /tmp/wpf.tgz"
 
