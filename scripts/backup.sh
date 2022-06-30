@@ -26,12 +26,12 @@ s3_uri="${s3_uri_base}/${CMS_DNS_A}_${timestamp}.tgz"
 
 if [ -n "$BACKUP_PASSPHRASE" ]; then
   echo "Encrypting backup..."
-  gpg --symmetric --batch --passphrase "${BACKUP_PASSPHRASE}" wpf.tgz
-  rm wpf.tgz
-  local_file="wpf.tgz.gpg"
+  gpg --symmetric --batch --passphrase "${BACKUP_PASSPHRASE}" /tmp/wpf.tgz
+  rm /tmp/wpf.tgz
+  local_file="/tmp/wpf.tgz.gpg"
   s3_uri="${s3_uri}.gpg"
 else
-  local_file="wpf.tgz"
+  local_file="/tmp/wpf.tgz"
   s3_uri="${s3_uri}"
 fi
 
