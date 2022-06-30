@@ -11,7 +11,7 @@ export AWS_ACCESS_KEY_ID=${BACKUP_KEY}
 export AWS_SECRET_ACCESS_KEY=${BACKUP_SECRET}
 
 mkdir -p /tmp/backup
-rsync -cavz --stats root@${CMS_HOST}:/var/www/html/wp-content /tmp/backup
+rsync -cavz --stats -e "ssh -o StrictHostKeyChecking=no" root@${CMS_HOST}:/var/www/html/wp-content /tmp/backup
 cd /tmp/backup
 tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions --warning=no-file-changed ./wp-content
 #ssh -o stricthostkeychecking=no root@${CMS_HOST} "tar cvzf /tmp/wpf.tgz --owner=0 --group=0 --no-same-owner --no-same-permissions /var/www/html/wp-content"
